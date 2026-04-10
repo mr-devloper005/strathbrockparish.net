@@ -3,8 +3,8 @@ import { defineSiteTheme } from '@/config/site.theme.defaults'
 export const SITE_THEME = defineSiteTheme({
   shell: 'editorial',
   hero: {
-    variant: 'spotlight-split',
-    eyebrow: 'Premium multi-surface publishing system',
+    variant: 'catalog-promo',
+    eyebrow: 'Funky social bookmarking and profile surfacing',
   },
   home: {
     layout: 'editorial-rhythm',
@@ -12,13 +12,13 @@ export const SITE_THEME = defineSiteTheme({
     featuredTaskKeys: ['sbm', 'profile', 'article'],
   },
   navigation: {
-    variant: 'editorial',
+    variant: 'capsule',
   },
   footer: {
     variant: 'editorial',
   },
   cards: {
-    listing: 'editorial-feature',
+    listing: 'catalog-grid',
     article: 'editorial-feature',
     image: 'studio-panel',
     profile: 'studio-panel',

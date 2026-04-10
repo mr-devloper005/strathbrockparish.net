@@ -140,29 +140,29 @@ export function Footer() {
 
   if (recipe.footer === 'editorial-footer') {
     return (
-      <footer className="border-t border-[#dbc6b6] bg-[linear-gradient(180deg,#fff9f0_0%,#fff1df_100%)] text-[#2f1d16]">
+      <footer className="border-t border-[#e5d5c6] bg-[linear-gradient(180deg,#fff7ea_0%,#fefddf_100%)] text-[#261811]">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr_0.9fr]">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#dbc6b6] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#72594a]">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#e5d5c6] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#72594a]">
                 <Sparkles className="h-3.5 w-3.5" />
-                Editorial desk
+                Bookmark desk
               </div>
               <h3 className="mt-5 text-3xl font-semibold tracking-[-0.04em]">{SITE_CONFIG.name}</h3>
               <p className="mt-4 max-w-md text-sm leading-7 text-[#72594a]">{SITE_CONFIG.description}</p>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8b6d5a]">Sections</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8b6d5a]">Priority lanes</h4>
               <ul className="mt-4 space-y-3 text-sm">
-                {footerLinks.platform.map((item: any) => (
+                {footerLinks.platform.filter((item: any) => item.href === '/sbm' || item.href === '/profile').map((item: any) => (
                   <li key={item.name}><Link href={item.href} className="hover:text-[#2f1d16]">{item.name}</Link></li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8b6d5a]">Company</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8b6d5a]">More routes</h4>
               <ul className="mt-4 space-y-3 text-sm">
-                {footerLinks.company.map((item) => (
+                {footerLinks.platform.filter((item: any) => item.href !== '/sbm' && item.href !== '/profile').slice(0, 5).map((item: any) => (
                   <li key={item.name}><Link href={item.href} className="hover:text-[#2f1d16]">{item.name}</Link></li>
                 ))}
               </ul>

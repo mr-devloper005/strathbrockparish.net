@@ -49,12 +49,12 @@ const variantClasses = {
     mobile: 'border-t border-[#dbc6b6] bg-[#fff7ee]',
   },
   'floating-bar': {
-    shell: 'border-b border-transparent bg-transparent text-white',
-    logo: 'rounded-[1.35rem] border border-white/12 bg-white/8 shadow-[0_16px_48px_rgba(15,23,42,0.22)] backdrop-blur',
-    active: 'bg-[#8df0c8] text-[#07111f]',
-    idle: 'text-slate-200 hover:bg-white/10 hover:text-white',
-    cta: 'rounded-full bg-[#8df0c8] text-[#07111f] hover:bg-[#77dfb8]',
-    mobile: 'border-t border-white/10 bg-[#09101d]/96',
+    shell: 'border-b border-transparent bg-transparent text-[#261811]',
+    logo: 'rounded-[1.35rem] border border-[#e6d5c7] bg-[#fffaf4]/92 shadow-[0_16px_48px_rgba(84,52,32,0.12)] backdrop-blur',
+    active: 'bg-[#e87f24] text-[#fffdf0]',
+    idle: 'text-[#6d5246] hover:bg-[#fff0de] hover:text-[#261811]',
+    cta: 'rounded-full bg-[#e87f24] text-[#fffdf0] hover:bg-[#d9731b]',
+    mobile: 'border-t border-[#e6d5c7] bg-[#fff8ef]/96',
   },
   'utility-bar': {
     shell: 'border-b border-[#d7deca] bg-[#f4f6ef]/94 text-[#1f2617] backdrop-blur-xl',
@@ -98,7 +98,10 @@ export function Navbar() {
   const { recipe } = getFactoryState()
 
   const navigation = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled && task.key !== 'profile'), [])
-  const primaryNavigation = navigation.slice(0, 5)
+  const primaryNavigation = ['sbm', 'profile']
+    .map((key) => SITE_CONFIG.tasks.find((task) => task.enabled && task.key === key))
+    .filter(Boolean)
+    .concat(navigation.filter((task) => task.key !== 'sbm').slice(0, 2)) as typeof navigation
   const mobileNavigation = navigation.map((task) => ({
     name: task.label,
     href: task.route,
@@ -270,7 +273,7 @@ export function Navbar() {
               <Button size="sm" asChild className={cn('rounded-full', style.cta)}>
                 <Link href="/register">
                   <Plus className="mr-1 h-4 w-4" />
-                  Get Started
+                  Submit
                 </Link>
               </Button>
             ) : (
@@ -311,16 +314,16 @@ export function Navbar() {
             </div>
           </Link>
 
-          <div className={cn('mt-7 rounded-[1.35rem] border border-current/10 px-4 py-4', isFloating ? 'bg-white/6 backdrop-blur' : isEditorial ? 'bg-white/70' : isUtility ? 'bg-white/80' : 'bg-slate-50')}>
+          <div className={cn('mt-7 rounded-[1.35rem] border border-current/10 px-4 py-4', isFloating ? 'bg-[#fff3e2] backdrop-blur' : isEditorial ? 'bg-white/70' : isUtility ? 'bg-white/80' : 'bg-slate-50')}>
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] opacity-70">
               <Search className="h-3.5 w-3.5" />
               Quick Find
             </div>
-            <p className="mt-2 text-sm leading-6 opacity-80">Browse by task, lane, or content type without cramped top navigation.</p>
+            <p className="mt-2 text-sm leading-6 opacity-80">Bookmarks and profiles stay in the front row. Other tasks still remain fully reachable by URL and search.</p>
           </div>
 
           {primaryTask ? (
-            <Link href={primaryTask.route} className={cn('mt-5 inline-flex items-center gap-2 self-start rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em]', isFloating ? 'border border-white/10 bg-white/6 text-white/80' : 'border border-current/10 bg-white/70 opacity-80')}>
+            <Link href={primaryTask.route} className={cn('mt-5 inline-flex items-center gap-2 self-start rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em]', isFloating ? 'border border-[#e6d5c7] bg-[#fff8ef] text-[#6d5246]' : 'border border-current/10 bg-white/70 opacity-80')}>
               <Sparkles className="h-3.5 w-3.5" />
               {primaryTask.label}
             </Link>
@@ -341,9 +344,9 @@ export function Navbar() {
           </nav>
 
           <div className="mt-8 space-y-3">
-            <div className={cn('rounded-[1.6rem] border border-current/10 px-4 py-4 text-sm', isFloating ? 'bg-white/6 text-slate-200' : 'bg-white/75')}>
+            <div className={cn('rounded-[1.6rem] border border-current/10 px-4 py-4 text-sm', isFloating ? 'bg-[#fff0de] text-[#6d5246]' : 'bg-white/75')}>
               <div className="font-semibold">Navigation Note</div>
-              <p className="mt-2 text-xs leading-6 opacity-75">Desktop navigation now sits on the left so long task labels do not collide with actions or utility controls.</p>
+              <p className="mt-2 text-xs leading-6 opacity-75">The navbar now pushes bookmark and profile discovery first instead of treating every task with the same weight.</p>
             </div>
           </div>
 
@@ -358,7 +361,7 @@ export function Navbar() {
                 <Button size="sm" asChild className={cn('w-full justify-center rounded-full', style.cta)}>
                   <Link href="/register">
                     <Plus className="mr-1 h-4 w-4" />
-                    Get Started
+                    Submit
                   </Link>
                 </Button>
               </div>

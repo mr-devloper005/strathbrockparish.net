@@ -8,7 +8,7 @@ import { SchemaJsonLd } from '@/components/seo/schema-jsonld'
 import { TaskPostCard } from '@/components/shared/task-post-card'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { buildPageMetadata } from '@/lib/seo'
-import { fetchTaskPosts } from '@/lib/task-data'
+import { fetchTaskPosts, getPostTaskKey } from '@/lib/task-data'
 import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind, type ProductKind } from '@/design/factory/get-product-kind'
@@ -39,6 +39,10 @@ const taskIcons: Record<TaskKey, any> = {
   classified: Tag,
   image: ImageIcon,
   profile: User,
+  social: LayoutGrid,
+  pdf: FileText,
+  org: Building2,
+  comment: FileText,
 }
 
 function resolveTaskKey(value: unknown, fallback: TaskKey): TaskKey {
@@ -127,13 +131,13 @@ function getVisualTone() {
 
 function getCurationTone() {
   return {
-    shell: 'bg-[#f7f1ea] text-[#261811]',
+    shell: 'bg-[radial-gradient(circle_at_top_left,rgba(255,200,30,0.18),transparent_24%),radial-gradient(circle_at_90%_10%,rgba(115,165,202,0.18),transparent_18%),linear-gradient(180deg,#fff8ec_0%,#fefddf_100%)] text-[#261811]',
     panel: 'border border-[#ddcdbd] bg-[#fffaf4] shadow-[0_24px_60px_rgba(91,56,37,0.08)]',
-    soft: 'border border-[#e8dbce] bg-[#f3e8db]',
+    soft: 'border border-[#e8dbce] bg-[#fff0de]',
     muted: 'text-[#71574a]',
     title: 'text-[#261811]',
-    badge: 'bg-[#5b2b3b] text-[#fff0f5]',
-    action: 'bg-[#5b2b3b] text-[#fff0f5] hover:bg-[#74364b]',
+    badge: 'bg-[#e87f24] text-[#fffdf0]',
+    action: 'bg-[#e87f24] text-[#fffdf0] hover:bg-[#d9731b]',
     actionAlt: 'border border-[#ddcdbd] bg-transparent text-[#261811] hover:bg-[#efe3d6]',
   }
 }
@@ -247,14 +251,14 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
           <div className="grid gap-4 md:grid-cols-2">
             {(profilePosts.length ? profilePosts : classifiedPosts).slice(0, 4).map((post) => {
               const meta = getPostMeta(post)
-              const taskKey = resolveTaskKey(post.task, profilePosts.length ? 'profile' : 'classified')
+              const taskKey = getPostTaskKey(post) || (profilePosts.length ? 'profile' : 'classified')
               return (
                 <Link key={post.id} href={getTaskHref(taskKey, post.slug)} className={`overflow-hidden rounded-[1.8rem] ${tone.panel}`}>
                   <div className="relative h-44 overflow-hidden">
                     <ContentImage src={getPostImage(post)} alt={post.title} fill className="object-cover" />
                   </div>
                   <div className="p-5">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">{meta.category || post.task || 'Profile'}</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">{meta.category || taskKey || 'Profile'}</p>
                     <h3 className="mt-2 text-xl font-semibold">{post.title}</h3>
                     <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>{post.summary || 'Quick access to local information and related surfaces.'}</p>
                   </div>
@@ -375,7 +379,7 @@ function VisualHome({ primaryTask, imagePosts, profilePosts, articlePosts }: { p
             {gallery.slice(0, 5).map((post, index) => (
               <Link
                 key={post.id}
-                href={getTaskHref(resolveTaskKey(post.task, 'image'), post.slug)}
+                href={getTaskHref(getPostTaskKey(post) || 'image', post.slug)}
                 className={index === 0 ? `col-span-2 row-span-2 overflow-hidden rounded-[2.4rem] ${tone.panel}` : `overflow-hidden rounded-[1.8rem] ${tone.soft}`}
               >
                 <div className={index === 0 ? 'relative h-[360px]' : 'relative h-[170px]'}>
@@ -421,29 +425,44 @@ function CurationHome({ primaryTask, bookmarkPosts, profilePosts, articlePosts }
           <div>
             <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] ${tone.badge}`}>
               <Bookmark className="h-3.5 w-3.5" />
-              Curated collections
+              Bookmark-first system
             </span>
             <h1 className={`mt-6 max-w-4xl text-5xl font-semibold tracking-[-0.06em] sm:text-6xl ${tone.title}`}>
-              Save, organize, and revisit resources through shelves, boards, and curated collections.
+              Save weirdly useful links, follow the people behind them, and browse the board like a curated desk.
             </h1>
             <p className={`mt-6 max-w-2xl text-base leading-8 ${tone.muted}`}>{SITE_CONFIG.description}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href={primaryTask?.route || '/sbm'} className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.action}`}>
-                Open collections
+                Open bookmark lane
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link href="/profile" className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.actionAlt}`}>
-                Explore curators
+                Explore profiles
               </Link>
+            </div>
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              {[
+                ['Primary', 'SBM'],
+                ['Secondary', 'Profile'],
+                ['Mood', 'Funky mad theme'],
+              ].map(([label, value]) => (
+                <div key={label} className={`rounded-[1.4rem] p-4 ${tone.soft}`}>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] opacity-70">{label}</p>
+                  <p className="mt-2 text-lg font-semibold">{value}</p>
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
             {collections.map((post) => (
-              <Link key={post.id} href={getTaskHref(resolveTaskKey(post.task, 'sbm'), post.slug)} className={`rounded-[1.8rem] p-6 ${tone.panel}`}>
+              <Link key={post.id} href={getTaskHref(getPostTaskKey(post) || 'sbm', post.slug)} className={`rounded-[1.8rem] p-6 transition-transform duration-300 hover:-translate-y-1 ${tone.panel}`}>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Collection</p>
                 <h3 className="mt-3 text-2xl font-semibold">{post.title}</h3>
                 <p className={`mt-3 text-sm leading-8 ${tone.muted}`}>{post.summary || 'A calmer bookmark surface with room for context and grouping.'}</p>
+                <div className="mt-4 inline-flex rounded-full border border-current/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6d5246]">
+                  text-led card
+                </div>
               </Link>
             ))}
           </div>
@@ -452,8 +471,8 @@ function CurationHome({ primaryTask, bookmarkPosts, profilePosts, articlePosts }
         <div className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
           <div className={`rounded-[2rem] p-7 ${tone.panel}`}>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Why this feels different</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">More like saved boards and reading shelves than a generic post feed.</h2>
-            <p className={`mt-4 max-w-2xl text-sm leading-8 ${tone.muted}`}>The structure is calmer, the cards are less noisy, and the page encourages collecting and returning instead of forcing everything into a fast-scrolling list.</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">More like saved boards and profile traces than a generic post feed.</h2>
+            <p className={`mt-4 max-w-2xl text-sm leading-8 ${tone.muted}`}>The homepage now emphasizes bookmarks and curators, while the rest of the platform still stays available by route, footer, and search.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {people.map((post) => (

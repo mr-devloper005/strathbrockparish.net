@@ -2,76 +2,76 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent reading platform',
+    tagline: 'Curated links, profiles, and side quests',
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
+    tagline: 'Bookmark-heavy discovery with identity layers',
   },
   hero: {
-    badge: 'Latest stories and visuals',
-    title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
+    badge: 'Funky bookmark desk',
+    title: ['Save sharp links,', 'trace the people behind them.'],
     description:
-      'Explore fresh articles, image-led posts, and discoverable content across the platform through a calmer and clearer browsing experience.',
+      'Built for bookmarking-first browsing: compact resource cards, louder profile surfaces, and a more playful feed rhythm that still keeps every task route alive underneath.',
     primaryCta: {
-      label: 'Read latest stories',
-      href: '/articles',
+      label: 'Explore bookmarks',
+      href: '/sbm',
     },
     secondaryCta: {
-      label: 'Explore visuals',
-      href: '/image-sharing',
+      label: 'Open profiles',
+      href: '/profile',
     },
-    searchPlaceholder: 'Search stories, visuals, listings, and more',
+    searchPlaceholder: 'Search bookmarks, profiles, tools, and linked resources',
     focusLabel: 'Focus',
-    featureCardBadge: 'latest cover rotation',
-    featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
+    featureCardBadge: 'live curation lane',
+    featureCardTitle: 'Bookmarks lead the homepage instead of getting buried under generic content blocks.',
     featureCardDescription:
-      'Recent images and stories stay at the center of the experience without changing any core platform behavior.',
+      'SBM stays text-first and utility-first, while profiles act as trust anchors around the feed without changing any platform behavior.',
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
+      title: 'Curated bookmarks, profiles, and connected discovery',
       description:
-        'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+        'Explore curated bookmarks, profile pages, and connected content through a playful curation-first experience.',
+      openGraphTitle: 'Curated bookmarks, profiles, and connected discovery',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'Discover bookmark collections, profile surfaces, and connected content through a curation-first experience.',
+      keywords: ['social bookmarking', 'profile discovery', 'curated links', 'resource board'],
     },
-    introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introBadge: 'About the board',
+    introTitle: 'Built for link hunters, profile browsers, and people who like organized chaos.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'This site is now shaped around social bookmarking and profile discovery first, with compact resource scanning and stronger identity surfaces leading the experience.',
+      'Other tasks still remain supported and URL-accessible, but the main rhythm now points visitors toward saved resources, useful links, and the people or brands attached to them.',
+      'The result feels more like a discovery desk and less like a cloned publishing template.',
     ],
     sideBadge: 'At a glance',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'SBM is the main lane and profile is the support lane.',
+      'Homepage and navigation now surface bookmark-heavy discovery first.',
+      'Cards are denser and more text-led for better scanning.',
+      'Animations stay light and fast without changing functionality.',
     ],
     primaryLink: {
-      label: 'Browse articles',
-      href: '/articles',
+      label: 'Browse bookmarks',
+      href: '/sbm',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/image-sharing',
+      label: 'View profiles',
+      href: '/profile',
     },
   },
   cta: {
     badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
+    title: 'Explore bookmarks, profiles, and connected resources through one louder visual system.',
     description:
-      'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
+      'Move between bookmark collections, public profiles, and supporting tasks through one curation-first interface.',
     primaryCta: {
-      label: 'Get Started Free',
+      label: 'Open bookmark lane',
       href: '/register',
     },
     secondaryCta: {
-      label: 'Contact Sales',
-      href: '/contact',
+      label: 'Browse profiles',
+      href: '/profile',
     },
   },
   taskSectionHeading: 'Latest {label}',
