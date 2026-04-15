@@ -67,6 +67,12 @@ const cardStyles = {
     title: 'text-[#2b1d17]',
     badge: 'bg-[#2b1d17] text-[#fff3df]',
   },
+  'sbm-library': {
+    frame: 'rounded-[1.9rem] border border-[#e4d3c4] bg-[linear-gradient(180deg,#fffdf5_0%,#fff4e3_100%)] shadow-[0_18px_55px_rgba(102,64,37,0.1)] hover:-translate-y-1 hover:shadow-[0_28px_75px_rgba(102,64,37,0.16)]',
+    muted: 'text-[#6e584a]',
+    title: 'text-[#261811]',
+    badge: 'bg-[#e87f24] text-[#fffdf0]',
+  },
   'studio-panel': {
     frame: 'rounded-[1.9rem] border border-white/10 bg-[linear-gradient(180deg,rgba(7,17,31,0.96),rgba(12,23,43,0.96))] text-white shadow-[0_24px_80px_rgba(15,23,42,0.35)] hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(15,23,42,0.42)]',
     muted: 'text-slate-300',
@@ -164,7 +170,7 @@ export function TaskPostCard({
   if (isBookmarkVariant) {
     return (
       <Link href={href} className={`group flex h-full flex-row items-start gap-4 overflow-hidden p-5 transition duration-300 ${visualVariant.frame}`}>
-        <div className="mt-1 rounded-full bg-white/10 p-2.5 text-current transition group-hover:scale-105">
+        <div className="mt-1 rounded-2xl bg-[#73a5ca]/15 p-3 text-current transition group-hover:scale-105">
           <ExternalLink className="h-4 w-4" />
         </div>
         <div className="min-w-0 flex-1">
@@ -177,7 +183,10 @@ export function TaskPostCard({
           </div>
           <h3 className={`mt-3 line-clamp-2 text-lg font-semibold leading-snug group-hover:opacity-85 ${visualVariant.title}`}>{post.title}</h3>
           <p className={`mt-2 line-clamp-3 text-sm leading-7 ${visualVariant.muted}`}>{getExcerpt(content.description || post.summary, compact ? 120 : 180) || 'Explore this bookmark.'}</p>
-          {content.email ? <div className={`mt-3 inline-flex items-center gap-1 text-xs ${visualVariant.muted}`}><Mail className="h-3.5 w-3.5" />{content.email}</div> : null}
+          <div className={`mt-4 flex flex-wrap items-center gap-3 text-xs ${visualVariant.muted}`}>
+            <span className="inline-flex items-center gap-1 rounded-full border border-current/10 px-2.5 py-1">text-first card</span>
+            {content.email ? <span className="inline-flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{content.email}</span> : null}
+          </div>
         </div>
       </Link>
     )

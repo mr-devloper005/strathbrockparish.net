@@ -75,7 +75,7 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           panel: 'border border-[#dbc6b6] bg-white/90',
           soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
           input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
-          button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          button: 'bg-[#e87f24] text-[#fffdf0] hover:bg-[#d9731b]',
         }
       : {
           muted: 'text-slate-600',
@@ -189,11 +189,11 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         {layoutKey === 'profile-creator' || layoutKey === 'profile-business' ? (
           <section className={`mb-12 rounded-[2.2rem] p-8 shadow-[0_24px_70px_rgba(15,23,42,0.1)] ${ui.panel}`}>
             <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-              <div className={`min-h-[240px] rounded-[2rem] ${ui.soft}`} />
+              <div className={`min-h-[240px] rounded-[2rem] ${ui.soft} bg-[radial-gradient(circle_at_top_left,rgba(115,165,202,0.2),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.8),rgba(255,248,239,0.96))]`} />
               <div>
                 <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-                <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Profiles with stronger identity, trust, and reputation cues.</h1>
-                <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This layout prioritizes the person or business surface first, then lets the feed continue below without borrowing the same visual logic used by articles or listings.</p>
+                <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Profiles with louder identity blocks, warmer trust cues, and a more social-first presence.</h1>
+                <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This layout gives people and brands more weight so visitors can connect the saved resource to the person or project behind it.</p>
               </div>
             </div>
           </section>
@@ -219,8 +219,8 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           <section className="mb-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
             <div>
               <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Curated resources arranged more like collections than a generic post feed.</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>Bookmarks, saved resources, and reference-style items need calmer grouping and lighter metadata. This variant gives them that separation.</p>
+              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Curated resources arranged like a messy-smart link library instead of a blog grid.</h1>
+              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>Bookmarks stay text-led here. The cards are denser, scanning is faster, and imagery no longer overpowers the resource itself.</p>
             </div>
             <div className={`rounded-[2rem] p-6 ${ui.panel}`}>
               <p className={`text-xs uppercase tracking-[0.24em] ${ui.muted}`}>Collection filter</p>

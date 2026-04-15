@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus } from 'lucide-react'
+import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, MapPin, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -17,6 +17,46 @@ const NavbarAuthControls = dynamic(() => import('@/components/shared/navbar-auth
   ssr: false,
   loading: () => null,
 })
+
+const siteMoreRoutes = [
+  { name: 'About', href: '/about' },
+  { name: 'Contact us', href: '/contact' },
+  { name: 'Help', href: '/help' },
+  { name: 'Terms & policy', href: '/terms-and-policy' },
+] as const
+
+function SiteMoreRouteLinks({
+  pathname,
+  onNavigate,
+  linkClassName,
+  activeClassName,
+}: {
+  pathname: string
+  onNavigate?: () => void
+  linkClassName: string
+  activeClassName: string
+}) {
+  return (
+    <div className="border-t border-current/10 pt-4">
+      <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] opacity-50">Site pages</p>
+      <div className="space-y-1">
+        {siteMoreRoutes.map((item) => {
+          const isActive = pathname === item.href
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={onNavigate}
+              className={cn('block rounded-2xl px-3 py-2 text-sm font-semibold transition-colors', isActive ? activeClassName : linkClassName)}
+            >
+              {item.name}
+            </Link>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 const taskIcons: Record<TaskKey, any> = {
   article: FileText,
@@ -49,12 +89,12 @@ const variantClasses = {
     mobile: 'border-t border-[#dbc6b6] bg-[#fff7ee]',
   },
   'floating-bar': {
-    shell: 'border-b border-transparent bg-transparent text-white',
-    logo: 'rounded-[1.35rem] border border-white/12 bg-white/8 shadow-[0_16px_48px_rgba(15,23,42,0.22)] backdrop-blur',
-    active: 'bg-[#8df0c8] text-[#07111f]',
-    idle: 'text-slate-200 hover:bg-white/10 hover:text-white',
-    cta: 'rounded-full bg-[#8df0c8] text-[#07111f] hover:bg-[#77dfb8]',
-    mobile: 'border-t border-white/10 bg-[#09101d]/96',
+    shell: 'border-b border-transparent bg-transparent text-[#261811]',
+    logo: 'rounded-[1.35rem] border border-[#e6d5c7] bg-[#fffaf4]/92 shadow-[0_16px_48px_rgba(84,52,32,0.12)] backdrop-blur',
+    active: 'bg-[#e87f24] text-[#fffdf0]',
+    idle: 'text-[#6d5246] hover:bg-[#fff0de] hover:text-[#261811]',
+    cta: 'rounded-full bg-[#e87f24] text-[#fffdf0] hover:bg-[#d9731b]',
+    mobile: 'border-t border-[#e6d5c7] bg-[#fff8ef]/96',
   },
   'utility-bar': {
     shell: 'border-b border-[#d7deca] bg-[#f4f6ef]/94 text-[#1f2617] backdrop-blur-xl',
@@ -98,13 +138,15 @@ export function Navbar() {
   const { recipe } = getFactoryState()
 
   const navigation = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled && task.key !== 'profile'), [])
-  const primaryNavigation = navigation.slice(0, 5)
+  const primaryNavigation = ['sbm', 'profile']
+    .map((key) => SITE_CONFIG.tasks.find((task) => task.enabled && task.key === key))
+    .filter(Boolean)
+    .concat(navigation.filter((task) => task.key !== 'sbm').slice(0, 2)) as typeof navigation
   const mobileNavigation = navigation.map((task) => ({
     name: task.label,
     href: task.route,
     icon: taskIcons[task.key] || LayoutGrid,
   }))
-  const primaryTask = SITE_CONFIG.tasks.find((task) => task.key === recipe.primaryTask && task.enabled) || primaryNavigation[0]
   const isDirectoryProduct = recipe.homeLayout === 'listing-home' || recipe.homeLayout === 'classified-home'
 
   if (isDirectoryProduct) {
@@ -117,7 +159,7 @@ export function Navbar() {
             <div className="flex min-w-0 items-center gap-3">
               <Link href="/" className="flex min-w-0 items-center gap-3">
                 <div className={cn('flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden p-1.5', palette.logo)}>
-                  <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="44" height="44" className="h-full w-full object-contain" />
+                  <img src="/favicon.png?v=20260415" alt={`${SITE_CONFIG.name} logo`} width="44" height="44" className="h-full w-full object-contain" />
                 </div>
                 <div className="min-w-0">
                   <span className="block truncate text-lg font-semibold">{SITE_CONFIG.name}</span>
@@ -159,6 +201,12 @@ export function Navbar() {
                     </Link>
                   )
                 })}
+                <SiteMoreRouteLinks
+                  pathname={pathname}
+                  onNavigate={() => setIsMobileMenuOpen(false)}
+                  linkClassName={palette.post}
+                  activeClassName="bg-foreground text-background"
+                />
               </div>
             </div>
           )}
@@ -168,7 +216,7 @@ export function Navbar() {
           <div className="flex h-full flex-col">
             <Link href="/" className="flex items-center gap-3">
               <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden p-1.5', palette.logo)}>
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+                <img src="/favicon.png?v=20260415" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
               </div>
               <div className="min-w-0">
                 <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
@@ -176,20 +224,21 @@ export function Navbar() {
               </div>
             </Link>
 
-            <div className={cn('mt-7 flex items-center gap-3 rounded-[1.4rem] px-4 py-3 text-sm', palette.search)}>
+            <Link
+              href="/search"
+              aria-label="Open search — find local businesses by service, category, or city"
+              className={cn(
+                'mt-7 flex items-center gap-3 rounded-[1.4rem] px-4 py-3 text-sm transition-colors hover:brightness-[0.98]',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/35',
+                palette.search,
+              )}
+            >
               <Search className="h-4 w-4 shrink-0" />
               <div className="min-w-0">
                 <div className="truncate font-medium">Find local businesses</div>
                 <div className="truncate text-xs opacity-70">Search by service, category, or city</div>
               </div>
-            </div>
-
-            {primaryTask ? (
-              <Link href={primaryTask.route} className="mt-5 inline-flex items-center gap-2 self-start rounded-full border border-current/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] opacity-75">
-                <Sparkles className="h-3.5 w-3.5" />
-                {primaryTask.label}
-              </Link>
-            ) : null}
+            </Link>
 
             <nav className="mt-8 space-y-2">
               {primaryNavigation.map((task) => {
@@ -210,6 +259,8 @@ export function Navbar() {
                 )
               })}
             </nav>
+
+            <SiteMoreRouteLinks pathname={pathname} linkClassName={palette.post} activeClassName="bg-foreground text-background" />
 
             <div className="mt-8 grid gap-3">
               <div className={cn('rounded-[1.6rem] px-4 py-4 text-sm', palette.post)}>
@@ -256,7 +307,7 @@ export function Navbar() {
           <div className="flex min-w-0 items-center gap-3">
             <Link href="/" className="flex min-w-0 items-center gap-3">
               <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden p-1.5', style.logo)}>
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+                <img src="/favicon.png?v=20260415" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
               </div>
               <div className="min-w-0">
                 <span className="block truncate text-lg font-semibold">{SITE_CONFIG.name}</span>
@@ -270,7 +321,7 @@ export function Navbar() {
               <Button size="sm" asChild className={cn('rounded-full', style.cta)}>
                 <Link href="/register">
                   <Plus className="mr-1 h-4 w-4" />
-                  Get Started
+                  Submit
                 </Link>
               </Button>
             ) : (
@@ -294,6 +345,12 @@ export function Navbar() {
                   </Link>
                 )
               })}
+              <SiteMoreRouteLinks
+                pathname={pathname}
+                onNavigate={() => setIsMobileMenuOpen(false)}
+                linkClassName={style.idle}
+                activeClassName={style.active}
+              />
             </div>
           </div>
         )}
@@ -303,7 +360,7 @@ export function Navbar() {
         <div className="flex h-full flex-col">
           <Link href="/" className="flex items-center gap-3">
             <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden p-1.5', style.logo)}>
-              <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+                <img src="/favicon.png?v=20260415" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
             </div>
             <div className="min-w-0">
               <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
@@ -311,20 +368,21 @@ export function Navbar() {
             </div>
           </Link>
 
-          <div className={cn('mt-7 rounded-[1.35rem] border border-current/10 px-4 py-4', isFloating ? 'bg-white/6 backdrop-blur' : isEditorial ? 'bg-white/70' : isUtility ? 'bg-white/80' : 'bg-slate-50')}>
+          <Link
+            href="/search"
+            aria-label="Open search — quick find across bookmarks, profiles, and tasks"
+            className={cn(
+              'mt-7 block rounded-[1.35rem] border border-current/10 px-4 py-4 transition-colors',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#a68b6a]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
+              isFloating ? 'bg-[#fff3e2] backdrop-blur hover:bg-[#ffe8cf]' : isEditorial ? 'bg-white/70 hover:bg-white/90' : isUtility ? 'bg-white/80 hover:bg-white' : 'bg-slate-50 hover:bg-slate-100/90',
+            )}
+          >
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] opacity-70">
               <Search className="h-3.5 w-3.5" />
               Quick Find
             </div>
-            <p className="mt-2 text-sm leading-6 opacity-80">Browse by task, lane, or content type without cramped top navigation.</p>
-          </div>
-
-          {primaryTask ? (
-            <Link href={primaryTask.route} className={cn('mt-5 inline-flex items-center gap-2 self-start rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em]', isFloating ? 'border border-white/10 bg-white/6 text-white/80' : 'border border-current/10 bg-white/70 opacity-80')}>
-              <Sparkles className="h-3.5 w-3.5" />
-              {primaryTask.label}
-            </Link>
-          ) : null}
+            <p className="mt-2 text-sm leading-6 opacity-80">Bookmarks and profiles stay in the front row. Other tasks still remain fully reachable by URL and search.</p>
+          </Link>
 
           <nav className="mt-8 space-y-2">
             {primaryNavigation.map((task) => {
@@ -340,10 +398,12 @@ export function Navbar() {
             })}
           </nav>
 
+          <SiteMoreRouteLinks pathname={pathname} linkClassName={style.idle} activeClassName={style.active} />
+
           <div className="mt-8 space-y-3">
-            <div className={cn('rounded-[1.6rem] border border-current/10 px-4 py-4 text-sm', isFloating ? 'bg-white/6 text-slate-200' : 'bg-white/75')}>
+            <div className={cn('rounded-[1.6rem] border border-current/10 px-4 py-4 text-sm', isFloating ? 'bg-[#fff0de] text-[#6d5246]' : 'bg-white/75')}>
               <div className="font-semibold">Navigation Note</div>
-              <p className="mt-2 text-xs leading-6 opacity-75">Desktop navigation now sits on the left so long task labels do not collide with actions or utility controls.</p>
+              <p className="mt-2 text-xs leading-6 opacity-75">The navbar now pushes bookmark and profile discovery first instead of treating every task with the same weight.</p>
             </div>
           </div>
 
@@ -358,7 +418,7 @@ export function Navbar() {
                 <Button size="sm" asChild className={cn('w-full justify-center rounded-full', style.cta)}>
                   <Link href="/register">
                     <Plus className="mr-1 h-4 w-4" />
-                    Get Started
+                    Submit
                   </Link>
                 </Button>
               </div>

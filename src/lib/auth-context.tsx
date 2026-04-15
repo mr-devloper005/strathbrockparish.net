@@ -17,6 +17,17 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+/** Matches AuthProvider initial state when context is missing during SSR (RSC/client boundary quirk). */
+const ssrGuestAuth: AuthContextType = {
+  user: null,
+  isAuthenticated: false,
+  isLoading: false,
+  login: async () => {},
+  logout: () => {},
+  signup: async () => {},
+  updateUser: () => {},
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -117,6 +128,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext)
   if (context === undefined) {
+    if (typeof window === 'undefined') {
+      return ssrGuestAuth
+    }
     throw new Error('useAuth must be used within an AuthProvider')
   }
   return context
