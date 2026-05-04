@@ -1,11 +1,12 @@
 import Link from 'next/link'
-import { Clock, Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-react'
+import { Clock, Mail, MapPin, MessageCircle, Phone, Send, ExternalLink } from 'lucide-react'
 
 import { EditorialInfoShell, editorialInfoTone, InfoPageCrosslinks } from '@/components/shared/editorial-info-shell'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind } from '@/design/factory/get-product-kind'
 import { CONTACT_PAGE_OVERRIDE_ENABLED, ContactPageOverride } from '@/overrides/contact-page'
 import { SITE_CONFIG } from '@/lib/site-config'
+import { siteIdentity } from '@/config/site.identity'
 
 function contactLanes(kind: ReturnType<typeof getProductKind>) {
   if (kind === 'directory') {
@@ -65,9 +66,17 @@ export default function ContactPage() {
               <p className={`mt-2 text-sm leading-7 ${editorialInfoTone.muted}`}>{lane.body}</p>
             </div>
           ))}
+          <a
+            href={`mailto:${siteIdentity.contactEmail}`}
+            className={`flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${editorialInfoTone.action}`}
+          >
+            <Mail className="h-4 w-4" />
+            Email us at {siteIdentity.contactEmail}
+            <ExternalLink className="h-3 w-3" />
+          </a>
           <div className={`rounded-[1.65rem] border border-dashed border-[#dcc8b7] bg-[#fffdfa]/80 p-5`}>
             <p className={`text-sm leading-7 ${editorialInfoTone.muted}`}>
-              Prefer email? Use the form—your message arrives in the same inbox we monitor for operational requests. We do not publish your note without permission.
+              Prefer email? Click the button above or use the form—your message arrives in the same inbox we monitor for operational requests. We do not publish your note without permission.
             </p>
           </div>
         </div>

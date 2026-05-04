@@ -10,6 +10,8 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SchemaJsonLd } from "@/components/seo/schema-jsonld";
 import { BookmarkActions } from "@/components/sbm/bookmark-actions";
+import { FollowButton } from "@/components/sbm/follow-button";
+import { RichContent, formatRichHtml } from "@/components/shared/rich-content";
 import { buildPostUrl } from "@/lib/task-data";
 import { buildPostMetadata, buildTaskMetadata } from "@/lib/seo";
 import { fetchTaskPostBySlug, fetchTaskPosts } from "@/lib/task-data";
@@ -37,32 +39,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return post ? await buildPostMetadata("sbm", post) : await buildTaskMetadata("sbm");
 }
 
-const parseHtmlToParagraphs = (html: string): string[] => {
-  if (!html) return [];
-  
-  // Simple HTML tag removal for server-side
-  const cleanText = html
-    .replace(/<[^>]*>/g, '') // Remove HTML tags
-    .replace(/&nbsp;/g, ' ') // Replace non-breaking spaces
-    .replace(/&amp;/g, '&') // Replace HTML entities
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
+const decodeBasicHtmlEntities = (value: string) =>
+  value
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'");
-  
-  // Split by paragraphs and clean up
-  const paragraphs = cleanText
-    .split(/\n\s*\n|\r\n\s*\r\n/) // Split by double newlines
-    .map(p => p.trim())
-    .filter(p => p.length > 0);
-  
-  // If no paragraphs found, treat the whole text as one paragraph
-  if (paragraphs.length === 0 && cleanText.trim()) {
-    return [cleanText.trim()];
-  }
-  
-  return paragraphs;
-};
 
 export default async function BookmarkDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
@@ -75,6 +59,7 @@ export default async function BookmarkDetailPage({ params }: { params: Promise<{
   const content = (post.content || {}) as Record<string, any>;
   const title = post.title;
   const description = content.description || post.summary || "";
+  const descriptionHtml = formatRichHtml(decodeBasicHtmlEntities(description), "");
   const url = content.url || content.website || "#";
   const domain = url !== "#" ? url.replace(/^https?:\/\//, "").replace(/\/.*$/, "") : "";
   const category = content.category || post.tags?.[0] || "Bookmark";
@@ -124,9 +109,7 @@ export default async function BookmarkDetailPage({ params }: { params: Promise<{
               <p className="text-sm text-muted-foreground">Bookmark curator</p>
             </div>
           </div>
-          <Button className="gap-2 w-full sm:w-auto" size="lg">
-            Follow
-          </Button>
+          <FollowButton authorName={authorName} />
         </div>
 
         {/* Main Content */}
@@ -145,14 +128,13 @@ export default async function BookmarkDetailPage({ params }: { params: Promise<{
           {/* Main Content Card */}
           <Card className="border-border/60 shadow-lg">
             <CardContent className="p-6 sm:p-8">
-              {/* Description - Parsed into paragraphs */}
-              <div className="mb-6 space-y-4">
-                {parseHtmlToParagraphs(description).map((paragraph, index) => (
-                  <p key={index} className="text-lg leading-relaxed text-muted-foreground">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
+              {/* Description */}
+              {descriptionHtml ? (
+                <RichContent
+                  html={descriptionHtml}
+                  className="mb-6 text-muted-foreground prose-p:text-muted-foreground prose-a:text-primary"
+                />
+              ) : null}
 
               {/* Meta Information - Only domain */}
               {domain && (

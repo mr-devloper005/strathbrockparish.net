@@ -138,7 +138,7 @@ export function Navbar() {
   const { recipe } = getFactoryState()
 
   const navigation = useMemo(() => SITE_CONFIG.tasks.filter((task) => task.enabled && task.key !== 'profile'), [])
-  const primaryNavigation = ['sbm', 'profile']
+  const primaryNavigation = ['sbm']
     .map((key) => SITE_CONFIG.tasks.find((task) => task.enabled && task.key === key))
     .filter(Boolean)
     .concat(navigation.filter((task) => task.key !== 'sbm').slice(0, 2)) as typeof navigation
@@ -381,7 +381,7 @@ export function Navbar() {
               <Search className="h-3.5 w-3.5" />
               Quick Find
             </div>
-            <p className="mt-2 text-sm leading-6 opacity-80">Bookmarks and profiles stay in the front row. Other tasks still remain fully reachable by URL and search.</p>
+            <p className="mt-2 text-sm leading-6 opacity-80">Search more</p>
           </Link>
 
           <nav className="mt-8 space-y-2">

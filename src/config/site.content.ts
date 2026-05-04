@@ -70,7 +70,7 @@ export const siteContent = {
       href: '/register',
     },
     secondaryCta: {
-      label: 'Browse profiles',
+      label: 'Browse',
       href: '/profile',
     },
   },
@@ -173,9 +173,7 @@ export const taskIntroCopy: Record<
       'Browse profiles to understand people and brands more clearly, then continue into related content from the same source.',
     ],
     links: [
-      { label: 'Open listings', href: '/listings' },
-      { label: 'Read articles', href: '/articles' },
-      { label: 'Browse image sharing', href: '/image-sharing' },
+      { label: 'Open SBM', href: '/sbm' },
     ],
   },
   sbm: {
@@ -186,9 +184,7 @@ export const taskIntroCopy: Record<
       'Use this section to organize helpful sources and discover connected content without leaving the broader site experience.',
     ],
     links: [
-      { label: 'Browse articles', href: '/articles' },
-      { label: 'Explore listings', href: '/listings' },
-      { label: 'Open PDFs', href: '/pdf' },
+      { label: 'Browse Profiles', href: '/profile' },
     ],
   },
   pdf: {

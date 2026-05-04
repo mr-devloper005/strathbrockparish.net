@@ -259,8 +259,8 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
                   </div>
                   <div className="p-5">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.24em] opacity-70">{meta.category || taskKey || 'Profile'}</p>
-                    <h3 className="mt-2 text-xl font-semibold">{post.title}</h3>
-                    <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>{post.summary || 'Quick access to local information and related surfaces.'}</p>
+                    <h3 className="mt-2 text-xl font-semibold line-clamp-2">{post.title}</h3>
+                    <p className={`mt-2 text-sm leading-7 ${tone.muted} line-clamp-3`}>{post.summary || 'Quick access to local information and related surfaces.'}</p>
                   </div>
                 </Link>
               )
@@ -398,12 +398,12 @@ function VisualHome({ primaryTask, imagePosts, profilePosts, articlePosts }: { p
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {creators.map((post) => (
-              <Link key={post.id} href={`/profile/${post.slug}`} className={`rounded-[1.8rem] p-5 ${tone.soft}`}>
+              <Link key={post.id} href={`/profile/${post.slug}`} className={`overflow-hidden rounded-[1.8rem] p-5 ${tone.soft}`}>
                 <div className="relative h-40 overflow-hidden rounded-[1.2rem]">
                   <ContentImage src={getPostImage(post)} alt={post.title} fill className="object-cover" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold">{post.title}</h3>
-                <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>{post.summary || 'Creator profile and visual identity surface.'}</p>
+                <h3 className="mt-4 text-lg font-semibold line-clamp-2">{post.title}</h3>
+                <p className={`mt-2 text-sm leading-7 ${tone.muted} line-clamp-3`}>{post.summary || 'Creator profile and visual identity surface.'}</p>
               </Link>
             ))}
           </div>
@@ -440,18 +440,6 @@ function CurationHome({ primaryTask, bookmarkPosts, profilePosts, articlePosts }
                 Explore profiles
               </Link>
             </div>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {[
-                ['Primary', 'SBM'],
-                ['Secondary', 'Profile'],
-                ['Mood', 'Funky mad theme'],
-              ].map(([label, value]) => (
-                <div key={label} className={`rounded-[1.4rem] p-4 ${tone.soft}`}>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] opacity-70">{label}</p>
-                  <p className="mt-2 text-lg font-semibold">{value}</p>
-                </div>
-              ))}
-            </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
@@ -476,12 +464,12 @@ function CurationHome({ primaryTask, bookmarkPosts, profilePosts, articlePosts }
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {people.map((post) => (
-              <Link key={post.id} href={`/profile/${post.slug}`} className={`rounded-[1.8rem] p-5 ${tone.soft}`}>
+              <Link key={post.id} href={`/profile/${post.slug}`} className={`overflow-hidden rounded-[1.8rem] p-5 ${tone.soft}`}>
                 <div className="relative h-32 overflow-hidden rounded-[1.2rem]">
                   <ContentImage src={getPostImage(post)} alt={post.title} fill className="object-cover" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold">{post.title}</h3>
-                <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>Curator profile, saved resources, and collection notes.</p>
+                <h3 className="mt-4 text-lg font-semibold line-clamp-2">{post.title}</h3>
+                <p className={`mt-2 text-sm leading-7 ${tone.muted} line-clamp-3`}>Curator profile, saved resources, and collection notes.</p>
               </Link>
             ))}
           </div>
