@@ -41,7 +41,7 @@ export const siteTaskDefinitions = [
   },
   {
     key: 'sbm',
-    label: 'Social Bookmarking',
+    label: 'Explore',
     route: '/sbm',
     description: 'Curated bookmarks and resources.',
     contentType: 'sbm',
