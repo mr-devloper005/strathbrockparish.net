@@ -1,127 +1,56 @@
-import Link from 'next/link'
-import { Clock, Mail, MapPin, MessageCircle, Phone, Send, ExternalLink } from 'lucide-react'
+import { Mail, MessageSquareText, ShieldCheck } from 'lucide-react';
 
-import { EditorialInfoShell, editorialInfoTone, InfoPageCrosslinks } from '@/components/shared/editorial-info-shell'
-import { getFactoryState } from '@/design/factory/get-factory-state'
-import { getProductKind } from '@/design/factory/get-product-kind'
-import { CONTACT_PAGE_OVERRIDE_ENABLED, ContactPageOverride } from '@/overrides/contact-page'
-import { SITE_CONFIG } from '@/lib/site-config'
-import { siteIdentity } from '@/config/site.identity'
+import { ContactLeadForm } from '@/components/shared/contact-lead-form';
+import { Footer } from '@/components/shared/footer';
+import { NavbarShell } from '@/components/shared/navbar-shell';
 
-function contactLanes(kind: ReturnType<typeof getProductKind>) {
-  if (kind === 'directory') {
-    return [
-      { icon: MapPin, title: 'Listings & coverage', body: 'Ask about new categories, geography coverage, or verification for your business surface.' },
-      { icon: Phone, title: 'Partnerships', body: 'Bulk onboarding, sponsored placements, and co-marketing for local discovery programmes.' },
-      { icon: Clock, title: 'Response window', body: 'We typically reply within two working days for operational questions.' },
-    ]
-  }
-  if (kind === 'editorial') {
-    return [
-      { icon: Mail, title: 'Editorial & pitches', body: 'Essays, guest columns, and publication timing—send a short outline and your best headline idea.' },
-      { icon: MessageCircle, title: 'Reader feedback', body: 'Tell us when typography, contrast, or navigation gets in the way of reading.' },
-      { icon: Clock, title: 'Response window', body: 'We aim to acknowledge editorial notes within three working days.' },
-    ]
-  }
-  if (kind === 'visual') {
-    return [
-      { icon: MessageCircle, title: 'Creator desk', body: 'Gallery placements, licensing questions, and visual feature requests.' },
-      { icon: Mail, title: 'Press & kits', body: 'Request logos, screenshots, and talking points for coverage.' },
-      { icon: Clock, title: 'Response window', body: 'Visual enquiries are triaged within two working days.' },
-    ]
-  }
-  return [
-    { icon: MessageCircle, title: 'Bookmarks & curation', body: 'Collections, import help, and profile-linked boards—tell us what you are trying to organise.' },
-    { icon: Mail, title: 'Community programmes', body: 'Workshops, shared shelves, and parish-friendly rollouts.' },
-    { icon: Clock, title: 'Response window', body: 'We reply within two working days for most requests.' },
-  ]
-}
+const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Strath Brock Parish';
+
+const contactHighlights = [
+  { icon: Mail, title: 'Direct response', copy: 'Your message is saved securely and routed to the right team.' },
+  { icon: MessageSquareText, title: 'Clear details', copy: 'Share your requirement, question, or collaboration idea in one place.' },
+  { icon: ShieldCheck, title: 'Reliable follow-up', copy: 'We keep the request record so every conversation stays traceable.' },
+];
 
 export default function ContactPage() {
-  if (CONTACT_PAGE_OVERRIDE_ENABLED) {
-    return <ContactPageOverride />
-  }
-
-  const { recipe } = getFactoryState()
-  const productKind = getProductKind(recipe)
-  const lanes = contactLanes(productKind)
-
   return (
-    <EditorialInfoShell
-      kicker="Contact us"
-      title="We read every message—especially the long, specific ones."
-      lead={`Describe what you are trying to publish, fix, or explore on ${SITE_CONFIG.name}. The more context you share, the faster we can route you to the right person.`}
-      actions={
-        <Link href="/help" className={editorialInfoTone.actionOutline}>
-          Browse Help first
-        </Link>
-      }
-    >
-      <div className="grid gap-10 lg:grid-cols-[1fr_1.02fr] lg:items-start">
-        <div className="space-y-5">
-          {lanes.map((lane) => (
-            <div key={lane.title} className={editorialInfoTone.soft}>
-              <lane.icon className="h-5 w-5 text-[#8b6d5a]" />
-              <h2 className="mt-3 text-lg font-semibold text-[#1a120c]">{lane.title}</h2>
-              <p className={`mt-2 text-sm leading-7 ${editorialInfoTone.muted}`}>{lane.body}</p>
+    <div className="min-h-screen bg-[#f7f1e8] text-stone-950">
+      <NavbarShell />
+      <main>
+        <section className="relative overflow-hidden px-6 py-20 md:px-10 lg:px-16">
+          <div className="absolute left-[-10%] top-10 h-72 w-72 rounded-full bg-amber-200/40 blur-3xl" />
+          <div className="absolute bottom-0 right-[-8%] h-80 w-80 rounded-full bg-stone-300/50 blur-3xl" />
+
+          <div className="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.35em] text-stone-500">Contact</p>
+              <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[0.95] tracking-[-0.06em] text-stone-950 md:text-7xl">
+                Let&apos;s talk about your next move.
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-700">
+                Use this form to reach {siteName}. Your request will be recorded and shared with the support team for follow-up.
+              </p>
+
+              <div className="mt-8 grid gap-4">
+                {contactHighlights.map((item) => (
+                  <div key={item.title} className="flex gap-4 rounded-3xl border border-stone-200 bg-white/60 p-5 shadow-sm">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-stone-950 text-white">
+                      <item.icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h2 className="text-base font-black text-stone-950">{item.title}</h2>
+                      <p className="mt-1 text-sm leading-6 text-stone-600">{item.copy}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-          <a
-            href={`mailto:${siteIdentity.contactEmail}`}
-            className={`flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${editorialInfoTone.action}`}
-          >
-            <Mail className="h-4 w-4" />
-            Email us at {siteIdentity.contactEmail}
-            <ExternalLink className="h-3 w-3" />
-          </a>
-          <div className={`rounded-[1.65rem] border border-dashed border-[#dcc8b7] bg-[#fffdfa]/80 p-5`}>
-            <p className={`text-sm leading-7 ${editorialInfoTone.muted}`}>
-              Prefer email? Click the button above or use the form—your message arrives in the same inbox we monitor for operational requests. We do not publish your note without permission.
-            </p>
+
+            <ContactLeadForm />
           </div>
-        </div>
-
-        <div className={editorialInfoTone.panel}>
-          <h2 className="text-xl font-semibold text-[#1a120c] sm:text-2xl">Send a message</h2>
-          <p className={`mt-2 text-sm ${editorialInfoTone.muted}`}>All fields help us respond with something useful, not a template.</p>
-          <form className="mt-8 grid gap-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="grid gap-1.5 text-sm font-medium text-[#1a120c]">
-                Name
-                <input className={editorialInfoTone.input} name="name" autoComplete="name" placeholder="Your full name" />
-              </label>
-              <label className="grid gap-1.5 text-sm font-medium text-[#1a120c]">
-                Email
-                <input
-                  className={editorialInfoTone.input}
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="you@example.com"
-                />
-              </label>
-            </div>
-            <label className="grid gap-1.5 text-sm font-medium text-[#1a120c]">
-              Topic
-              <input className={editorialInfoTone.input} name="topic" placeholder="e.g. Listing verification, partnership, bug on /help" />
-            </label>
-            <label className="grid gap-1.5 text-sm font-medium text-[#1a120c]">
-              Message
-              <textarea
-                className={editorialInfoTone.textarea}
-                name="message"
-                placeholder="Include URLs, screenshots, or deadlines. The more detail, the better we can help."
-              />
-            </label>
-            <button type="submit" className={`inline-flex h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold ${editorialInfoTone.action}`}>
-              <Send className="h-4 w-4" />
-              Send message
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <InfoPageCrosslinks current="contact" />
-    </EditorialInfoShell>
-  )
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
 }
