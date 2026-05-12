@@ -90,8 +90,7 @@ export default function AboutPage() {
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {milestones.map((m) => (
             <div key={m.year} className={editorialInfoTone.panel}>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#a68b6a]">{m.year}</p>
-              <h3 className="mt-3 text-xl font-semibold text-[#1a120c]">{m.title}</h3>
+              <h3 className="text-xl font-semibold text-[#1a120c]">{m.title}</h3>
               <p className={`mt-3 text-sm leading-7 ${editorialInfoTone.muted}`}>{m.detail}</p>
             </div>
           ))}

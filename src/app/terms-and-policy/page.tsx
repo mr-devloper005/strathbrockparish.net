@@ -91,8 +91,7 @@ export default function TermsAndPolicyPage() {
             Licenses
           </Link>
         </div>
-        <p className="mt-8 text-xs uppercase tracking-[0.18em] text-[#a68b6a]">Last updated · April 15, 2026</p>
-      </div>
+              </div>
 
       <InfoPageCrosslinks current="terms-policy" />
     </EditorialInfoShell>

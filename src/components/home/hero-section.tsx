@@ -113,9 +113,6 @@ export function HeroSection({ images, tasks }: { images: string[]; tasks: TaskCo
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className={`rounded-full px-6 ${palette.secondary}`}>
-                <Link href={siteContent.hero.secondaryCta.href}>{siteContent.hero.secondaryCta.label}</Link>
-              </Button>
             </div>
 
             <div className="mt-8 grid max-w-2xl gap-3 sm:grid-cols-[1.1fr_0.9fr]">
