@@ -436,9 +436,6 @@ function CurationHome({ primaryTask, bookmarkPosts, profilePosts, articlePosts }
                 Open bookmark lane
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/profile" className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.actionAlt}`}>
-                Explore profiles
-              </Link>
             </div>
           </div>
 
