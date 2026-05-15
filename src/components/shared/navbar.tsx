@@ -163,7 +163,6 @@ export function Navbar() {
                 </div>
                 <div className="min-w-0">
                   <span className="block truncate text-lg font-semibold">{SITE_CONFIG.name}</span>
-                  <span className="block truncate text-[10px] uppercase tracking-[0.22em] opacity-60">{siteContent.navbar.tagline}</span>
                 </div>
               </Link>
             </div>
@@ -220,7 +219,6 @@ export function Navbar() {
               </div>
               <div className="min-w-0">
                 <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
-                <span className="block truncate text-[10px] uppercase tracking-[0.24em] opacity-60">{siteContent.navbar.tagline}</span>
               </div>
             </Link>
 
@@ -311,7 +309,6 @@ export function Navbar() {
               </div>
               <div className="min-w-0">
                 <span className="block truncate text-lg font-semibold">{SITE_CONFIG.name}</span>
-                <span className="block truncate text-[10px] uppercase tracking-[0.22em] opacity-70">{siteContent.navbar.tagline}</span>
               </div>
             </Link>
           </div>
@@ -364,7 +361,6 @@ export function Navbar() {
             </div>
             <div className="min-w-0">
               <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
-              <span className="block truncate text-[10px] uppercase tracking-[0.24em] opacity-70">{siteContent.navbar.tagline}</span>
             </div>
           </Link>
 
