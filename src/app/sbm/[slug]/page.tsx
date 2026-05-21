@@ -17,6 +17,9 @@ import { buildPostMetadata, buildTaskMetadata } from "@/lib/seo";
 import { fetchTaskPostBySlug, fetchTaskPosts } from "@/lib/task-data";
 import { SITE_CONFIG } from "@/lib/site-config";
 import {
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
   ArrowUpRight,
   Tag,
   Globe,
