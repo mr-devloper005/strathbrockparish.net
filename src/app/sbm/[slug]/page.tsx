@@ -17,15 +17,14 @@ import { buildPostMetadata, buildTaskMetadata } from "@/lib/seo";
 import { fetchTaskPostBySlug, fetchTaskPosts } from "@/lib/task-data";
 import { SITE_CONFIG } from "@/lib/site-config";
 import {
-
-export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
   ArrowUpRight,
   Tag,
   Globe,
   ChevronLeft,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 export const revalidate = 3;
 
 export async function generateStaticParams() {
